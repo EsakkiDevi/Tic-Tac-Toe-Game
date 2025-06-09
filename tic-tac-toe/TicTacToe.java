@@ -1,4 +1,5 @@
 import java.util.*;
+import java.sql.SQLException;
 class TicTacToe
 {
     public static void main(String[] args) {
@@ -28,6 +29,8 @@ class TicTacToe
         }
        }
 
+       DBHelper.startGame();
+
       char Currentplayer='X';
       for(int turn=0;turn<9;turn++)
       {
@@ -56,6 +59,8 @@ class TicTacToe
 
      game[row][col]=Currentplayer;   
 
+      DBHelper.recordMove(Currentplayer, row, col);//////
+
      if(isWin(game,Currentplayer))
      {
        for(int i=0;i<game.length;i++)
@@ -78,6 +83,7 @@ class TicTacToe
         }
        }
        System.out.println("Player "+Currentplayer +" wins!\nThe game over!");
+       DBHelper.updateGameStats(Currentplayer);
        return;
  }
 
@@ -113,6 +119,7 @@ class TicTacToe
     }
 
     System.out.println("it is Draw!");
+     DBHelper.updateGameStats(null); 
     System.out.println("Do you play again(yes/no):");
     s.nextLine(); 
     playagain=s.nextLine().toLowerCase();
